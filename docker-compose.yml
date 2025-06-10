@@ -37,7 +37,7 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/qbittorrent:/config
-      - ${DOWNLOAD_DIR}:/downloads
+      - ${MEDIA_DIR}:/media
     network_mode: service:gluetun
     depends_on:
       - gluetun
@@ -67,8 +67,7 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/lidarr:/config
-      - ${MUSIC_DIR}:/music
-      - ${DOWNLOAD_DIR}:/downloads
+      - ${MEDIA_DIR}:/media
     ports:
       - 8686:8686
     restart: unless-stopped
@@ -84,8 +83,7 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/readarr:/config
-      - ${BOOKS_DIR}:/books
-      - ${DOWNLOAD_DIR}:/downloads
+      - ${MEDIA_DIR}:/media
     ports:
       - 8787:8787
     restart: unless-stopped
@@ -101,8 +99,7 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/radarr:/config
-      - ${MOVIES_DIR}:/movies
-      - ${DOWNLOAD_DIR}:/downloads
+      - ${MEDIA_DIR}:/media
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -118,8 +115,7 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/sonarr:/config
-      - ${TV_DIR}:/tv
-      - ${DOWNLOAD_DIR}:/downloads
+      - ${MEDIA_DIR}:/media
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -142,10 +138,6 @@ services:
       - ${CONFIG_DIR}/fileflows/data:/app/Data
       - ${CONFIG_DIR}/fileflows/common:/app/common
       - ${MEDIA_DIR}:/media
-      - ${MUSIC_DIR}:/music
-      - ${BOOKS_DIR}:/books
-      - ${MOVIES_DIR}:/movies
-      - ${TV_DIR}:/tv
     ports:
       - 19200:5000
     restart: unless-stopped
@@ -164,10 +156,7 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - ${CONFIG_DIR}/jellyfin:/config
-      - ${MUSIC_DIR}:/music
-      - ${BOOKS_DIR}:/books
-      - ${MOVIES_DIR}:/movies
-      - ${TV_DIR}:/tv
+      - ${MEDIA_DIR}:/media
     ports:
       - 8096:8096
       - 7359:7359/udp   # local discovery

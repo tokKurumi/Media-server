@@ -1,6 +1,7 @@
 .env
 
 mediaserver/configs/
+mediaserver.old
 
 mediaserver/downloads
 mediaserver/media/books
