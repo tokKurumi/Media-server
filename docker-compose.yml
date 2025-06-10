@@ -1,0 +1,206 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
+      - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_ENDPOINT_PORT}
+      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/gluetun:/gluetun/config
+    ports:
+      - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
+      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
+      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  qbittorrent:
+    image: linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - WEBUI_PORT=${QBIT_WEBUI_PORT}
+      - TORRENTING_PORT=${QBIT_CONNECTION_PORT}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/qbittorrent:/config
+      - ${DOWNLOAD_DIR}:/downloads
+    network_mode: service:gluetun
+    depends_on:
+      - gluetun
+    restart: unless-stopped
+
+  prowlarr:
+    image: linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  lidarr:
+    image: linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/lidarr:/config
+      - ${MUSIC_DIR}:/music
+      - ${DOWNLOAD_DIR}:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  readarr:
+    image: linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/readarr:/config
+      - ${BOOKS_DIR}:/books
+      - ${DOWNLOAD_DIR}:/downloads
+    ports:
+      - 8787:8787
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/radarr:/config
+      - ${MOVIES_DIR}:/movies
+      - ${DOWNLOAD_DIR}:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+    volumes:
+      - ${CONFIG_DIR}/sonarr:/config
+      - ${TV_DIR}:/tv
+      - ${DOWNLOAD_DIR}:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  fileflows:
+    image: revenz/fileflows:latest
+    container_name: fileflows
+    runtime: nvidia
+    environment:
+      - PUID=${PUID}
+      - PGID=${PUID}
+      - TZ=Europe/Moscow
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${CONFIG_DIR}/fileflows/temp:/temp
+      - ${CONFIG_DIR}/fileflows/data:/app/Data
+      - ${CONFIG_DIR}/fileflows/common:/app/common
+      - ${MEDIA_DIR}:/media
+      - ${MUSIC_DIR}:/music
+      - ${BOOKS_DIR}:/books
+      - ${MOVIES_DIR}:/movies
+      - ${TV_DIR}:/tv
+    ports:
+      - 19200:5000
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  jellyfin:
+    image: linuxserver/jellyfin:latest
+    container_name: jellyfin
+    runtime: nvidia
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ${CONFIG_DIR}/jellyfin:/config
+      - ${MUSIC_DIR}:/music
+      - ${BOOKS_DIR}:/books
+      - ${MOVIES_DIR}:/movies
+      - ${TV_DIR}:/tv
+    ports:
+      - 8096:8096
+      - 7359:7359/udp   # local discovery
+      - 1900:1900/udp   # DLNA
+    restart: unless-stopped
+    networks:
+      - media_network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Moscow
+      - FORCE_IPV4_FIRST=true
+    volumes:
+      - ${CONFIG_DIR}/jellyseerr:/app/config
+    ports:
+      - 5055:5055
+    networks:
+      - media_network
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
+    restart: unless-stopped
+
+networks:
+  media_network:
+    driver: bridge

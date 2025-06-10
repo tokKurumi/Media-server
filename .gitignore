@@ -1,0 +1,10 @@
+.env
+
+mediaserver/configs/
+
+mediaserver/downloads
+mediaserver/media/books
+mediaserver/media/movies
+mediaserver/media/music
+mediaserver/media/tv
+mediaserver/media/books
