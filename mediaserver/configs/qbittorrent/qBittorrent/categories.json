@@ -1,0 +1,14 @@
+{
+    "lidarr": {
+        "save_path": "/media/downloads/lidarr"
+    },
+    "radarr": {
+        "save_path": "/media/downloads/radarr"
+    },
+    "readarr": {
+        "save_path": "/media/downloads/readarr"
+    },
+    "sonarr": {
+        "save_path": "/media/downloads/sonarr"
+    }
+}

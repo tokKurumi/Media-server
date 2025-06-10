@@ -16,8 +16,6 @@ services:
       - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
       - TZ=Europe/Moscow
-    volumes:
-      - ${CONFIG_DIR}/gluetun:/gluetun/config
     ports:
       - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
@@ -54,9 +52,9 @@ services:
       - ${CONFIG_DIR}/prowlarr:/config
     ports:
       - 9696:9696
-    restart: unless-stopped
     networks:
       - media_network
+    restart: unless-stopped
 
   lidarr:
     image: linuxserver/lidarr:latest

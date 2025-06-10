@@ -1,11 +1,46 @@
 .env
 
-mediaserver/configs/
-mediaserver.old
+### configs
+# qBittorrent
+mediaserver/configs/qbittorrent/.cache
+mediaserver/configs/qbittorrent/qBittorrent/BT_backup
+mediaserver/configs/qbittorrent/qBittorrent/nova3
+mediaserver/configs/qbittorrent/qBittorrent/GeoDB
+mediaserver/configs/qbittorrent/qBittorrent/logs
+mediaserver/configs/qbittorrent/qBittorrent/rss
+mediaserver/configs/qbittorrent/qBittorrent/lockfile
+mediaserver/configs/qbittorrent/qBittorrent/qBittorrent-data.conf
+mediaserver/configs/qbittorrent/qBittorrent/watched_folders.json
+mediaserver/configs/qbittorrent/qBittorrent/ipc-socket
 
-mediaserver/downloads
+# prowlarr
+mediaserver/configs/prowlarr/
+
+# lidarr
+mediaserver/configs/lidarr/
+
+# readarr
+mediaserver/configs/readarr/
+
+# radarr
+mediaserver/configs/radarr/
+
+# sonarr
+mediaserver/configs/sonarr/
+
+# fileflows
+mediaserver/configs/fileflows/
+
+# jellyfin
+mediaserver/configs/jellyfin/
+
+# jellyseerr
+mediaserver/configs/jellyseerr/
+
+### media
+mediaserver/media/downloads
 mediaserver/media/books
 mediaserver/media/movies
-mediaserver/media/music
-mediaserver/media/tv
+mediaserver/media/songs
+mediaserver/media/shows
 mediaserver/media/books
