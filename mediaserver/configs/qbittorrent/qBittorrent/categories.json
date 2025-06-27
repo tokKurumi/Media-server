@@ -2,6 +2,9 @@
     "lidarr": {
         "save_path": "/media/downloads/lidarr"
     },
+    "prowlarr": {
+        "save_path": "/media/downloads/prowlarr"
+    },
     "radarr": {
         "save_path": "/media/downloads/radarr"
     },
