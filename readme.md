@@ -11,7 +11,6 @@ This repository provides a complete media server stack using Docker Compose, fea
     - [Sonarr](https://github.com/linuxserver/docker-sonarr) (TV)
     - [Radarr](https://github.com/linuxserver/docker-radarr) (Movies)
     - [Lidarr](https://github.com/linuxserver/docker-lidarr) (Music)
-    - [Readarr](https://github.com/linuxserver/docker-readarr) (Books)
 - **Media Processing**: [FileFlows](https://fileflows.com/) for automated file organization and processing.
 - **Media Server**: [Jellyfin](https://github.com/linuxserver/docker-jellyfin) for streaming your media library.
 - **Media Requests**: [Jellyseerr](https://github.com/Fallenbagel/jellyseerr) for managing user requests.
@@ -26,7 +25,6 @@ This repository provides a complete media server stack using Docker Compose, fea
 | Sonarr       | 8989             | TV series management           |
 | Radarr       | 7878             | Movie management               |
 | Lidarr       | 8686             | Music management               |
-| Readarr      | 8787             | Book management                |
 | FileFlows    | 19200            | Media file processing          |
 | Jellyfin     | 8096             | Media streaming server         |
 | Jellyseerr   | 5055             | Media request management       |
@@ -53,6 +51,7 @@ This repository provides a complete media server stack using Docker Compose, fea
 
 - All services are configured to use a shared `media_network` for easy communication.
 - qBittorrent runs behind Gluetun for privacy.
+- qBittorrent password is `9ec849e7-3d42-4a33-9a6d-49670334f983`.
 - Hardware acceleration is enabled for Jellyfin and FileFlows if an NVIDIA GPU is present.
 
 ## Credits
