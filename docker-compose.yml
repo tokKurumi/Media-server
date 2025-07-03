@@ -72,21 +72,21 @@ services:
     networks:
       - media_network
 
-  readarr:
-    image: linuxserver/readarr:develop
-    container_name: readarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Moscow
-    volumes:
-      - ${CONFIG_DIR}/readarr:/config
-      - ${MEDIA_DIR}:/media
-    ports:
-      - 8787:8787
-    restart: unless-stopped
-    networks:
-      - media_network
+  # readarr:
+  #   image: linuxserver/readarr:develop
+  #   container_name: readarr
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=Europe/Moscow
+  #   volumes:
+  #     - ${CONFIG_DIR}/readarr:/config
+  #     - ${MEDIA_DIR}:/media
+  #   ports:
+  #     - 8787:8787
+  #   restart: unless-stopped
+  #   networks:
+  #     - media_network
 
   radarr:
     image: linuxserver/radarr:latest
