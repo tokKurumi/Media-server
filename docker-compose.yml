@@ -1,25 +1,28 @@
 services:
-  gluetun:
-    image: qmcgaw/gluetun:latest
-    container_name: gluetun
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: wireguard
     cap_add:
       - NET_ADMIN
+      - NET_RAW
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - VPN_SERVICE_PROVIDER=custom
-      - VPN_TYPE=wireguard
-      - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
-      - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_ENDPOINT_PORT}
-      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
-      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
       - TZ=Europe/Moscow
+      - SERVERURL=${WIREGUARD_ENDPOINT_IP}
+      - SERVERPORT=${WIREGUARD_ENDPOINT_PORT}
+      - PEERS=1
+      - PEERDNS=auto
+      - INTERNAL_SUBNET=10.13.13.0
+      - ALLOWEDIPS=0.0.0.0/0,::/0
+    volumes:
+      - ${CONFIG_DIR}/wireguard:/config
     ports:
       - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
     networks:
       - media_network
@@ -36,9 +39,9 @@ services:
     volumes:
       - ${CONFIG_DIR}/qbittorrent:/config
       - ${MEDIA_DIR}:/media
-    network_mode: service:gluetun
+    network_mode: service:wireguard
     depends_on:
-      - gluetun
+      - wireguard
     restart: unless-stopped
 
   prowlarr:

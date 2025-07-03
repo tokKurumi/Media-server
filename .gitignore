@@ -1,6 +1,8 @@
 .env
 
 ### configs
+mediaserver/configs/wireguard/
+
 # qBittorrent
 mediaserver/configs/qbittorrent/.cache
 mediaserver/configs/qbittorrent/qBittorrent/BT_backup
