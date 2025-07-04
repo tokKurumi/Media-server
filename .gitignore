@@ -41,8 +41,7 @@ mediaserver/configs/jellyseerr/
 
 ### media
 mediaserver/media/downloads
-mediaserver/media/books
-mediaserver/media/movies
-mediaserver/media/songs
-mediaserver/media/shows
-mediaserver/media/books
+# mediaserver/media/readarr
+mediaserver/media/radarr
+mediaserver/media/lidarr
+mediaserver/media/sonarr
