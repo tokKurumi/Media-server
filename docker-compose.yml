@@ -4,14 +4,11 @@ services:
     container_name: wireguard
     cap_add:
       - NET_ADMIN
-      - NET_RAW
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Europe/Moscow
-      - SERVERURL=${WIREGUARD_ENDPOINT_IP}
-      - SERVERPORT=${WIREGUARD_ENDPOINT_PORT}
-      - PEERS=1
+      - PEERS=0
       - PEERDNS=auto
       - INTERNAL_SUBNET=10.13.13.0
       - ALLOWEDIPS=0.0.0.0/0,::/0
