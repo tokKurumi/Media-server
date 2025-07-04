@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = <your_client_private_key>
+Address = 10.13.13.2/24
+DNS = 1.1.1.1
+
+[Peer]
+PublicKey = <server_public_key>
+Endpoint = <vpn_server_ip>:<vpn_server_port>
+AllowedIPs = 0.0.0.0/0, ::/0

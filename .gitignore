@@ -1,47 +1,22 @@
 .env
 
-### configs
-mediaserver/configs/wireguard/
+# ignore everything in configs, but not the folders themselves
+mediaserver/configs/**
 
-# qBittorrent
-mediaserver/configs/qbittorrent/.cache
-mediaserver/configs/qbittorrent/qBittorrent/BT_backup
-mediaserver/configs/qbittorrent/qBittorrent/nova3
-mediaserver/configs/qbittorrent/qBittorrent/GeoDB
-mediaserver/configs/qbittorrent/qBittorrent/logs
-mediaserver/configs/qbittorrent/qBittorrent/rss
-mediaserver/configs/qbittorrent/qBittorrent/lockfile
-mediaserver/configs/qbittorrent/qBittorrent/qBittorrent-data.conf
-mediaserver/configs/qbittorrent/qBittorrent/watched_folders.json
-mediaserver/configs/qbittorrent/qBittorrent/ipc-socket
+# wireguard specific
+!mediaserver/configs/wireguard/
+!mediaserver/configs/wireguard/wg_confs/
+!mediaserver/configs/wireguard/wg_confs/wg0.conf.example
 
-# prowlarr
-mediaserver/configs/prowlarr/
+# qBittorrent specific
+!mediaserver/configs/qbittorrent/
+!mediaserver/configs/qbittorrent/categories.json
+!mediaserver/configs/qbittorrent/qBittorrent.conf
 
-# lidarr
-mediaserver/configs/lidarr/
+# media
+mediaserver/media/*/**
+!mediaserver/media/*/
 
-# readarr
-mediaserver/configs/readarr/
-
-# radarr
-mediaserver/configs/radarr/
-
-# sonarr
-mediaserver/configs/sonarr/
-
-# fileflows
-mediaserver/configs/fileflows/
-
-# jellyfin
-mediaserver/configs/jellyfin/
-
-# jellyseerr
-mediaserver/configs/jellyseerr/
-
-### media
-mediaserver/media/downloads
-# mediaserver/media/readarr
-mediaserver/media/radarr
-mediaserver/media/lidarr
-mediaserver/media/sonarr
+# downloads
+mediaserver/media/downloads/*/**
+!mediaserver/media/downloads/*/
