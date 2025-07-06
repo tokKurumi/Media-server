@@ -8,8 +8,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Europe/Moscow
-      - PEERS=0
-      - PEERDNS=auto
       - INTERNAL_SUBNET=10.13.13.0
       - ALLOWEDIPS=0.0.0.0/0,::/0
     volumes:
