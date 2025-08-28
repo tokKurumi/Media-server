@@ -1,26 +1,26 @@
 services:
-  wireguard:
-    image: linuxserver/wireguard:latest
-    container_name: wireguard
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Moscow
-      - INTERNAL_SUBNET=10.13.13.0
-      - ALLOWEDIPS=0.0.0.0/0,::/0
-    volumes:
-      - ${CONFIG_DIR}/wireguard:/config
-    ports:
-      - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
-      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
-      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    restart: unless-stopped
-    networks:
-      - media_network
+#   wireguard:
+#     image: linuxserver/wireguard:latest
+#     container_name: wireguard
+#     cap_add:
+#       - NET_ADMIN
+#     environment:
+#       - PUID=${PUID}
+#       - PGID=${PGID}
+#       - TZ=Europe/Moscow
+#       - INTERNAL_SUBNET=10.13.13.0
+#       - ALLOWEDIPS=0.0.0.0/0,::/0
+#     volumes:
+#       - ${CONFIG_DIR}/wireguard:/config
+#     ports:
+#       - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
+#       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
+#       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
+#     sysctls:
+#       - net.ipv4.conf.all.src_valid_mark=1
+#     restart: unless-stopped
+#     networks:
+#       - media_network
 
   qbittorrent:
     image: linuxserver/qbittorrent:latest
@@ -34,10 +34,18 @@ services:
     volumes:
       - ${CONFIG_DIR}/qbittorrent:/config
       - ${MEDIA_DIR}:/media
-    network_mode: service:wireguard
-    depends_on:
-      - wireguard
+    ports:
+      - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
+      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
+      - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
+    networks:
+        - media_network
+    # network_mode: service:wireguard
+    # depends_on:
+    #   - wireguard
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   prowlarr:
     image: linuxserver/prowlarr:latest
@@ -53,6 +61,8 @@ services:
     networks:
       - media_network
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   lidarr:
     image: linuxserver/lidarr:latest
@@ -69,6 +79,8 @@ services:
     restart: unless-stopped
     networks:
       - media_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # readarr:
   #   image: linuxserver/readarr:develop
@@ -85,6 +97,8 @@ services:
   #   restart: unless-stopped
   #   networks:
   #     - media_network
+  # labels:
+  #   - "com.centurylinklabs.watchtower.enable=true"
 
   radarr:
     image: linuxserver/radarr:latest
@@ -101,6 +115,8 @@ services:
     restart: unless-stopped
     networks:
       - media_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   sonarr:
     image: linuxserver/sonarr:latest
@@ -117,11 +133,12 @@ services:
     restart: unless-stopped
     networks:
       - media_network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   fileflows:
     image: revenz/fileflows:latest
     container_name: fileflows
-    runtime: nvidia
     environment:
       - PUID=${PUID}
       - PGID=${PUID}
@@ -139,11 +156,12 @@ services:
     restart: unless-stopped
     networks:
       - media_network
+    devices:
+      - nvidia.com/gpu=all
 
   jellyfin:
     image: linuxserver/jellyfin:latest
     container_name: jellyfin
-    runtime: nvidia
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -160,13 +178,10 @@ services:
     restart: unless-stopped
     networks:
       - media_network
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    devices:
+      - nvidia.com/gpu=all
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -185,6 +200,8 @@ services:
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1
     restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   media_network:
