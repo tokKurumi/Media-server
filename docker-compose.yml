@@ -82,23 +82,23 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
-  # readarr:
-  #   image: linuxserver/readarr:develop
-  #   container_name: readarr
-  #   environment:
-  #     - PUID=${PUID}
-  #     - PGID=${PGID}
-  #     - TZ=Europe/Moscow
-  #   volumes:
-  #     - ${CONFIG_DIR}/readarr:/config
-  #     - ${MEDIA_DIR}:/media
-  #   ports:
-  #     - 8787:8787
-  #   restart: unless-stopped
-  #   networks:
-  #     - media_network
-  # labels:
-  #   - "com.centurylinklabs.watchtower.enable=true"
+#   readarr:
+#     image: linuxserver/readarr:develop
+#     container_name: readarr
+#     environment:
+#       - PUID=${PUID}
+#       - PGID=${PGID}
+#       - TZ=Europe/Moscow
+#     volumes:
+#       - ${CONFIG_DIR}/readarr:/config
+#       - ${MEDIA_DIR}:/media
+#     ports:
+#       - 8787:8787
+#     restart: unless-stopped
+#     networks:
+#       - media_network
+#     labels:
+#       - "com.centurylinklabs.watchtower.enable=true"
 
   radarr:
     image: linuxserver/radarr:latest
