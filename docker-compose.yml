@@ -1,26 +1,27 @@
 services:
-#   wireguard:
-#     image: linuxserver/wireguard:latest
-#     container_name: wireguard
-#     cap_add:
-#       - NET_ADMIN
-#     environment:
-#       - PUID=${PUID}
-#       - PGID=${PGID}
-#       - TZ=Europe/Moscow
-#       - INTERNAL_SUBNET=10.13.13.0
-#       - ALLOWEDIPS=0.0.0.0/0,::/0
-#     volumes:
-#       - ${CONFIG_DIR}/wireguard:/config
-#     ports:
-#       - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
-#       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
-#       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
-#     sysctls:
-#       - net.ipv4.conf.all.src_valid_mark=1
-#     restart: unless-stopped
-#     networks:
-#       - media_network
+  # wireguard:
+  #   image: linuxserver/wireguard:latest
+  #   container_name: wireguard
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=Europe/Moscow
+  #     - INTERNAL_SUBNET=10.13.13.0
+  #     - ALLOWEDIPS=0.0.0.0/0,::/0
+  #   volumes:
+  #     - ${CONFIG_DIR}/wireguard:/config
+  #   ports:
+  #     - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
+  #     - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
+  #     - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #   restart: unless-stopped
+  #   networks:
+  #     - media_network
+  #     - proxiable
 
   qbittorrent:
     image: linuxserver/qbittorrent:latest
@@ -35,11 +36,12 @@ services:
       - ${CONFIG_DIR}/qbittorrent:/config
       - ${MEDIA_DIR}:/media
     ports:
-      - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
+      # - ${QBIT_WEBUI_PORT}:${QBIT_WEBUI_PORT}
       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}
       - ${QBIT_CONNECTION_PORT}:${QBIT_CONNECTION_PORT}/udp
     networks:
         - media_network
+        - proxiable
     # network_mode: service:wireguard
     # depends_on:
     #   - wireguard
@@ -56,10 +58,11 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ${CONFIG_DIR}/prowlarr:/config
-    ports:
-      - 9696:9696
+    # ports:
+    #   - 9696:9696
     networks:
       - media_network
+      - proxiable
     restart: unless-stopped
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
@@ -74,31 +77,32 @@ services:
     volumes:
       - ${CONFIG_DIR}/lidarr:/config
       - ${MEDIA_DIR}:/media
-    ports:
-      - 8686:8686
+    # ports:
+    #   - 8686:8686
     restart: unless-stopped
     networks:
       - media_network
+      - proxiable
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
-#   readarr:
-#     image: linuxserver/readarr:develop
-#     container_name: readarr
-#     environment:
-#       - PUID=${PUID}
-#       - PGID=${PGID}
-#       - TZ=Europe/Moscow
-#     volumes:
-#       - ${CONFIG_DIR}/readarr:/config
-#       - ${MEDIA_DIR}:/media
-#     ports:
-#       - 8787:8787
-#     restart: unless-stopped
-#     networks:
-#       - media_network
-#     labels:
-#       - "com.centurylinklabs.watchtower.enable=true"
+  # readarr:
+  #   image: linuxserver/readarr:develop
+  #   container_name: readarr
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=Europe/Moscow
+  #   volumes:
+  #     - ${CONFIG_DIR}/readarr:/config
+  #     - ${MEDIA_DIR}:/media
+  #   ports:
+  #     - 8787:8787
+  #   restart: unless-stopped
+  #   networks:
+  #     - media_network
+  #   labels:
+  #     - "com.centurylinklabs.watchtower.enable=true"
 
   radarr:
     image: linuxserver/radarr:latest
@@ -110,11 +114,12 @@ services:
     volumes:
       - ${CONFIG_DIR}/radarr:/config
       - ${MEDIA_DIR}:/media
-    ports:
-      - 7878:7878
+    # ports:
+    #   - 7878:7878
     restart: unless-stopped
     networks:
       - media_network
+      - proxiable
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -128,11 +133,12 @@ services:
     volumes:
       - ${CONFIG_DIR}/sonarr:/config
       - ${MEDIA_DIR}:/media
-    ports:
-      - 8989:8989
+    # ports:
+    #   - 8989:8989
     restart: unless-stopped
     networks:
       - media_network
+      - proxiable
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -151,11 +157,12 @@ services:
       - ${CONFIG_DIR}/fileflows/data:/app/Data
       - ${CONFIG_DIR}/fileflows/common:/app/common
       - ${MEDIA_DIR}:/media
-    ports:
-      - 19200:5000
+    # ports:
+    #   - 19200:5000
     restart: unless-stopped
     networks:
       - media_network
+      - proxiable
     devices:
       - nvidia.com/gpu=all
 
@@ -172,12 +179,13 @@ services:
       - ${CONFIG_DIR}/jellyfin:/config
       - ${MEDIA_DIR}:/media
     ports:
-      - 8096:8096
+      # - 8096:8096
       - 7359:7359/udp   # local discovery
       - 1900:1900/udp   # DLNA
     restart: unless-stopped
     networks:
       - media_network
+      - proxiable
     devices:
       - nvidia.com/gpu=all
     labels:
@@ -193,10 +201,11 @@ services:
       - FORCE_IPV4_FIRST=true
     volumes:
       - ${CONFIG_DIR}/jellyseerr:/app/config
-    ports:
-      - 5055:5055
+    # ports:
+    #   - 5055:5055
     networks:
       - media_network
+      - proxiable
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1
     restart: unless-stopped
@@ -206,3 +215,5 @@ services:
 networks:
   media_network:
     driver: bridge
+  proxiable:
+    external: true
