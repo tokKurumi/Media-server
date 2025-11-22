@@ -1,12 +1,28 @@
 .env
 
-# ignore everything in configs, but not the folders themselves
+# ignore everything in configs by default
 mediaserver/configs/**
 
 # wireguard specific
 !mediaserver/configs/wireguard/
 !mediaserver/configs/wireguard/wg_confs/
 !mediaserver/configs/wireguard/wg_confs/wg0.conf.example
+
+# lidarr specific
+!mediaserver/configs/lidarr/
+!mediaserver/configs/lidarr/config.xml
+
+# prowlarr specific
+!mediaserver/configs/prowlarr/
+!mediaserver/configs/prowlarr/config.xml
+
+# radarr specific
+!mediaserver/configs/radarr/
+!mediaserver/configs/radarr/config.xml
+
+# sonarr specific
+!mediaserver/configs/sonarr/
+!mediaserver/configs/sonarr/config.xml
 
 # qBittorrent specific
 !mediaserver/configs/qbittorrent/
