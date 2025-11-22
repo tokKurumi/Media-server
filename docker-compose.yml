@@ -212,6 +212,22 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
+  music-bot:
+    image: ghcr.io/manuel-rw/jellyfin-discord-music-bot:latest
+    container_name: jellyfin-discord-music-bot
+    environment:
+      - DISCORD_CLIENT_TOKEN=${DISCORD_CLIENT_TOKEN}
+      - JELLYFIN_SERVER_ADDRESS=http://jellyfin:8096
+      - JELLYFIN_AUTHENTICATION_USERNAME=${JELLYFIN_AUTHENTICATION_USERNAME}
+      - JELLYFIN_AUTHENTICATION_PASSWORD=${JELLYFIN_AUTHENTICATION_PASSWORD}
+      - UPDATER_DISABLE_NOTIFICATIONS=true
+      - ALLOW_EVERYONE=true
+    restart: unless-stopped
+    networks:
+      - media_network
+    depends_on:
+      - jellyfin
+
 networks:
   media_network:
     driver: bridge
