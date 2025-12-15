@@ -143,11 +143,11 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
   fileflows:
-    image: revenz/fileflows:latest
+    image: revenz/fileflows:stable
     container_name: fileflows
     environment:
       - PUID=${PUID}
-      - PGID=${PUID}
+      - PGID=${PGID}
       - TZ=Europe/Moscow
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - NVIDIA_VISIBLE_DEVICES=all
@@ -188,8 +188,6 @@ services:
       - proxiable
     devices:
       - nvidia.com/gpu=all
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -227,6 +225,8 @@ services:
       - media_network
     depends_on:
       - jellyfin
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   media_network:
